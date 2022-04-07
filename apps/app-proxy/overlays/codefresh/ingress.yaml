@@ -4,8 +4,10 @@ metadata:
   creationTimestamp: null
   name: codefresh-cap-app-proxy
   namespace: codefresh
+  annotations:
+    cert-manager.io/cluster-issuer: ca-cluster-issuer-v2
+    kubernetes.io/ingress.class: nginx-public
 spec:
-  ingressClassName: nginx-public
   rules:
   - host: cf.public.test.lifen.fr
     http:
@@ -17,5 +19,9 @@ spec:
               number: 3017
         path: /app-proxy/
         pathType: Prefix
+  tls:
+  - hosts:
+    - '*.public.test.lifen.fr'
+    secretName: wildcard-public.test.lifen.fr-tls
 status:
   loadBalancer: {}
